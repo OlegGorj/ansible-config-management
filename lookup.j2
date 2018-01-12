@@ -1,0 +1,10 @@
+
+{% for host in groups['gluster_servers'] %}
+{% if host != inventory_hostname %}
+  {% if 'ansible_' + rhel7_interface in hostvars[host] %}
+  - {{ hostvars[host]['ansible_' + rhel7_interface]['ipv4']['address'] }}
+  {% else %}
+  - {{ hostvars[host]['ansible_' + default_interface]['ipv4']['address'] }}
+  {% endif %}
+{% endif %}
+{% endfor %}
