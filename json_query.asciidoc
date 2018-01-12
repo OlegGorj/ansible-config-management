@@ -1,0 +1,44 @@
+
+json_query requires Python object (dict) as input, if you feed it with string, it gives empty string as result.
+
+You get different result because of Ansible templating engine tricky work.
+
+After evaluating jijna2 expression Ansible try to cast complex types to Python objects (like dict or list).
+
+
+1. 
+```
+- set_fact:
+    from_lookup_with_from_json: "{{ lookup('file','test.json') | from_json }}"
+```
+from_lookup_with_from_json is a dict, because you manually convert JSON-string from file to dict with from_json filter.
+
+2. 
+```
+- set_fact:
+    from_lookup_without_from_json: "{{ lookup('file','test.json') }}"
+```
+from_lookup_with_from_json becomes dict, because Ansible converts it when jinja2 expression ends with }}. So from_json is actually unnecessary as the last filter in chain.
+
+3. 
+```
+debug: msg="{{ lookup('file','test.json') | from_json | json_query(query) }}"
+```
+Again, you manually convert JSON-string here. So json_query get dict as input.
+
+4. 
+```
+debug: msg="{{ lookup('file','test.json') | json_query(query) }}"
+```
+
+In this case you feed JSON-string (not dict) as input to json_query filter. As everything happens inside one jinja2 expression, Ansible doesn't attempt to convert anything in between.
+
+One can also get empty string result with a variable this way:
+
+```
+- set_fact:
+    from_lookup_force_string: "{{ lookup('file','test.json') | string }}"
+ ```
+ 
+In this case from_lookup_force_string will not be converted by Ansible tempating engine, and json_query will give you empty response on it.
+
