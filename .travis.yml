@@ -8,7 +8,7 @@ install:
   - pip install ansible
 script:
   - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
-  - ansible-playbook -i tests/inventory --syntax-check tests/test.yml
-  - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
+  - ansible-playbook -i ./inventories --syntax-check tests/test.yml
+  - ansible-playbook -i ./inventories --connection=local --become -vvvv tests/test.yml
 notifications:
   email: false
