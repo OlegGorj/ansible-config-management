@@ -1,0 +1,226 @@
+---
+filebeat_create_config: true
+
+filebeat_prospectors_log:
+  - input_type: log
+    paths:
+      - "/data/log/hadoop-yarn/yarn/yarn-yarn-nodemanager-*.log"
+      - "/data/log/hadoop-yarn/yarn/yarn-yarn-nodemanager-*.out"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.yarn.nodemanager
+      log.type: system
+  - input_type: log
+    paths:
+      - "/data/log/hive/hive.err.*"
+      - "/data/log/hive/hive.out.*"
+      - "/data/log/hive/hive-server2.*"
+      - "/data/log/hive/hiveserver2.*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: WARN
+      log.module: app
+      log.name: app.hiveserver
+      log.type: system
+  - input_type: log
+    paths:
+      - "/data/log/hive/hivemetastore.*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: WARN
+      log.module: app
+      log.name: app.hivemetastore
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/hadoop/hdfs/hadoop-hdfs-datanode-*.log"
+      - "/data/log/hadoop/hdfs/hadoop-hdfs-namenode-*.log"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.datanode
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/hadoop/hdfs/SecurityAuth.audit"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.auth
+      log.type: audit
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/hadoop-yarn/application_*/container_*/stderr"
+      - "/data/log/hadoop-yarn/application_*/container_*/stdout"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.yarn
+      log.type: application
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/spark2/spark-spark-org.apache.spark.deploy.history.HistoryServer*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.spark2
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/zookeeper/*zookeeper-server-*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.zookeeper
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/data/log/apps/analytics/ampjob_details_daily*"
+      - "/data/log/apps/analytics/ampjob_daily_check*"
+      - "/data/log/apps/analytics/ampjob_daily*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.ampjob
+      log.type: application
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/var/log/postgresql/postgresql*.log"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.postgres
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/var/log/ambari-agent/ambari-agent.*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.ambariagent
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/var/log/ambari/ambari*"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.ambariserver
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/var/log/ranger/usersync/usersync.log"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.ranger.usersync
+      log.type: system
+    files_under_root: true
+  - input_type: log
+    paths:
+      - "/var/log/ranger/usersync/access_log.*.log"
+      - "/var/log/ranger/usersync/xa_portal.log"
+    fields:
+      environment: "{{ deployment_environment }}"
+      type: filebeat
+      hostname: "{{ ansible_hostname }}"
+      name: file
+      app.id: app.amp
+      log.level: INFO
+      log.module: app
+      log.name: app.ranger.admin
+      log.type: system
+    files_under_root: true
+
+
+filebeat_output_elasticsearch_enabled: true
+filebeat_output_elasticsearch_hosts:
+  - "elasticsearch-host:9200"
+filebeat_output_elasticsearch_protocol: "https"
+filebeat_output_elasticsearch_username: "database_user"
+filebeat_output_elasticsearch_password: "secret"
+filebeat_output_elasticsearch_index: "log-app-dev-%{+yyyy.MM.dd}"
+
+filebeat_ssl_certificate_file: false
+
+filebeat_output_logstash_enabled: false
+
+
+filebeat_enable_logging: true
+filebeat_log_level: warning
+filebeat_log_dir: /data/log/filebeat
+filebeat_log_filename: filebeat.log

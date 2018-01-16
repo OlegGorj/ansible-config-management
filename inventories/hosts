@@ -1,0 +1,21 @@
+[all:vars]
+ansible_ssh_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[local-servers]
+localhost
+
+[hdp-nodes-dev-for-test]
+localhost
+
+[hdp-nodes-dev]
+localhost
+
+[hdp-nodes-qa]
+localhost
+
+
+[hdp-nodes-stg]
+localhost
+
+[hdp-nodes-prod]
+localhost

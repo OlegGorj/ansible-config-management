@@ -1,0 +1,7 @@
+# Playbook to define common facts
+---
+- set_fact:
+    timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%SZ') }}"
+
+- set_fact:
+    hostname: "{{ lookup('pipe', 'hostname') }}"

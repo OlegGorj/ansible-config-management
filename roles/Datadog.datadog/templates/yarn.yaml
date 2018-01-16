@@ -1,0 +1,24 @@
+init_config:
+
+instances:
+  # The YARN check retrieves metrics from YARNS's ResourceManager. This
+  # check must be run from the Master Node and the ResourceManager URI must
+  # be specified below. The ResourceManager URI is composed of the 
+  # ResourceManager's hostname and port.
+  #
+  # The ResourceManager hostname can be found in the yarn-site.xml conf file
+  # under the property yarn.resourcemanager.address
+  #
+  # The ResourceManager port can be found in the yarn-site.xml conf file under
+  # the property yarn.resourcemanager.webapp.address
+  #
+  -  resourcemanager_uri: http://ip-172-19-163-213.eu-west-1.compute.internal:8088
+
+    # A Required friendly name for the cluster.
+     cluster_name: eu-west-1-non-dii-prd
+
+    # Optional tags to be applied to every emitted metric.
+     tags:
+       - data_cluster:non-dii
+       - region:eu-west-1
+       - environment:prd

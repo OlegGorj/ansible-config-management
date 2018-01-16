@@ -1,0 +1,9 @@
+---
+# This playbook deploys DevOps infrastructure
+
+- name: DataDog configuration
+  hosts: tag_Environment_devops
+  roles:
+    - { role: Datadog.datadog, become: yes, datadog_api_key: "thekey" }
+  tags:
+    - datadog

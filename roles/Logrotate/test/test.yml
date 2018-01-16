@@ -1,0 +1,158 @@
+---
+  # this playbook is to test filebeat configuration deployment
+
+- name: Test for logrotate configuration playbook
+  hosts: all
+  any_errors_fatal: true
+  become_user: root
+  become_method: sudo
+  vars:
+    deployment_environment: "{{ env | mandatory }}"
+  pre_tasks:
+  - name: fail the play if the env is not defined
+    fail: msg="mandatory param ENV must be defined "
+    when: "env == 0"
+  roles:
+  - role: ../../Logrotate
+    logrotate_applications:
+    - name: postgresql-common
+      definitions:
+      - logs:
+        - /var/log/postgresql/*.log
+        options:
+          - rotate 10
+          - weekly
+          - missingok
+          - notifempty
+          - compress
+          - copytruncate
+          - delaycompress
+          - su root root
+    - name: hadoop
+      definitions:
+      - logs:
+        - /data/log/tez_hive2/*.log
+        - /data/log/tez/*.log
+        - /data/log/webhcat/*.log
+        - /data/log/hadoop-yarn/yarn/*.log
+        - /data/log/hadoop-yarn/yarn/*.out
+        - /data/log/hadoop/hdfs/*.log
+        - /data/log/hadoop/hdfs/*.audit
+        - /data/log/filebeat/*.log
+        - /data/log/datadog/*.log
+        - /data/log/ambari-agent/*.log
+        - /data/log/mysql/*.log
+        - /data/log/hadoop-hdfs/*.log
+        - /data/log/hive/*.log
+        - /data/log/ambari/*.log
+        - /data/log/zookeeper/*.log
+        - /data/log/spark2/*.log
+        - /data/log/apps/analytics/*.out
+        options:
+          - rotate 30
+          - weekly
+          - missingok
+          - notifempty
+          - compress
+          - delaycompress
+          - su root root
+          - copytruncate
+        postrotate:
+          - invoke-rc.d rsyslog rotate > /dev/null 2>&1
+    - name: apport
+      definitions:
+      - logs:
+        - /var/log/apport.log
+        options:
+          - rotate 7
+          - weekly
+          - missingok
+          - notifempty
+          - compress
+          - copytruncate
+          - delaycompress
+    - name: apt
+      definitions:
+      - logs:
+        - /var/log/apt/term.log
+        - /var/log/apt/history.log
+        options:
+          - rotate 12
+          - monthly
+          - missingok
+          - notifempty
+          - compress
+    - name: dpkg
+      definitions:
+      - logs:
+        - /var/log/dpkg.log
+        - /var/log/alternatives.log
+        options:
+          - rotate 12
+          - monthly
+          - delaycompress
+          - compress
+          - missingok
+          - notifempty
+          - create 644 root root
+    - name: lxd
+      definitions:
+      - logs:
+        - /var/log/lxd/lxd.log
+        options:
+          - rotate 7
+          - copytruncate
+          - daily
+          - missingok
+          - notifempty
+          - compress
+          - delaycompress
+    - name: opsworks-agent
+      definitions:
+      - logs:
+        - /var/log/aws/opsworks/*.lo
+        options:
+          - rotate 20
+          - dateext
+          - dateformat -%Y-%m-%d
+          - compress
+          - missingok
+          - notifempty
+          - size 1024k
+          - copytruncate
+    - name: rsyslog
+      definitions:
+      - logs:
+        - /var/log/mail.info
+        - /var/log/mail.warn
+        - /var/log/mail.err
+        - /var/log/mail.log
+        - /var/log/daemon.log
+        - /var/log/kern.log
+        - /var/log/auth.log
+        - /var/log/user.log
+        - /var/log/lpr.log
+        - /var/log/cron.log
+        - /var/log/debug
+        - /var/log/messages
+        options:
+          - rotate 4
+          - weekly
+          - missingok
+          - notifempty
+          - compress
+          - delaycompress
+          - sharedscripts
+        postrotate:
+          - invoke-rc.d rsyslog rotate > /dev/nul
+      - logs:
+        - /var/log/syslog
+        options:
+          - rotate 7
+          - daily
+          - missingok
+          - notifempty
+          - delaycompress
+          - compress
+        postrotate:
+          - invoke-rc.d rsyslog rotate > /dev/null

@@ -1,0 +1,6 @@
+---
+# file: roles/logrotate/vars/main.yml
+lr_main_config_file:  /etc/logrotate.conf
+lr_packages_config_dir: /etc/logrotate.d
+lr_owner_usr: root
+lr_owner_grp: root

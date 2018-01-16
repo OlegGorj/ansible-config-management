@@ -1,0 +1,7 @@
+---
+# file: roles/filebeat/vars/main.yml
+
+filebeat_config_dir: /etc/filebeat
+filebeat_config_file: filebeat.yml
+filebeat_owner_usr: root
+filebeat_owner_grp: root

@@ -1,0 +1,54 @@
+# Playbook to generate config file for FileBeat agent
+---
+- include_role:
+    name: ../../common
+
+- name: check if filebeat config exist
+  stat:
+    path: "{{ filebeat_config_dir }}/{{ filebeat_config_file }}"
+  register: filebeat_conf_exist
+
+- block:
+  - name: create filebeat config directory if they don't exist
+    file:
+      path: "{{ filebeat_config_dir }}"
+      state: directory
+      owner: "{{ filebeat_owner_usr }}"
+      group: "{{ filebeat_owner_grp }}"
+      mode: 0755
+    become: yes
+    when: (filebeat_conf_exist == 0)
+    tags:
+    - filebeat
+
+  - name: create filebeat config file if they don't exist
+    file:
+      path: "{{ filebeat_config_dir }}/{{ filebeat_config_file }}"
+      state: touch
+      owner: "{{ filebeat_owner_usr }}"
+      group: "{{ filebeat_owner_grp }}"
+      mode: 0644
+    become: yes
+    when: (filebeat_conf_exist.stat.exists == false)
+    tags:
+    - filebeat
+
+- name: Backup filebeat config
+  become: yes
+  command: cp "{{ filebeat_config_dir }}/{{ filebeat_config_file }}" "{{ filebeat_config_dir }}/{{ filebeat_config_file }}.bk.{{ timestamp }}"
+  tags: configuration
+
+- name: Generate filebeat configuration from template
+  template:
+    src: filebeat.yml.j2
+    dest: "{{ filebeat_config_dir }}/{{ filebeat_config_file }}"
+    owner: "{{ filebeat_owner_usr }}"
+    group: "{{ filebeat_owner_grp }}"
+    mode: 0644
+    force: yes
+  when: (filebeat_conf_exist != 0)
+  become: yes
+  notify:
+    - restart filebeat
+  tags:
+    - filebeat

@@ -1,0 +1,15 @@
+---
+
+# This is global handlers for Filebeat playbooks
+
+- name: restart filebeat
+  service: name=filebeat state=restarted
+  become: yes
+
+- name: start filebeat
+  service: name=filebeat state=started
+  become: yes
+
+- name: stop filebeat
+  service: name=filebeat state=stoped
+  become: yes

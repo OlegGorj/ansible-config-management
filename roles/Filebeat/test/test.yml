@@ -1,0 +1,16 @@
+---
+# this playbook is to test filebeat configuration deployment
+
+- name: Test for filebeat configuration playbook
+  hosts: all
+  any_errors_fatal: true
+  become_user: root
+  become_method: sudo
+  vars:
+    deployment_environment: "{{ env | mandatory }}"
+  pre_tasks:
+  - name: fail the play if the env is not defined
+    fail: msg="mandatory param ENV must be defined "
+    when: "env == 0"
+  roles:
+    - role: ../../Filebeat

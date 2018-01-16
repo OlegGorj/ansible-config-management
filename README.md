@@ -1,37 +1,28 @@
-## Welcome to GitHub Pages
+# devops-config-management
+For all configuration management tasks
 
-You can use the [editor on GitHub](https://github.com/OlegGorj/ansible-repo/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## Usage
+First off, update AWS creds in /lib/ec2.ini, then apply profie with
+```bash
+. ansible-env.sh
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+Command to install Ansible deps on target machines
+```bash
+ansible -m raw -a 'sudo apt-get -y install python-simplejson' tag_Name_cdb_devops_eu_west_1_jenkins_jmeter_2:cdb_devops_eu_west_1_jenkins_jmeter_3
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/OlegGorj/ansible-repo/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Install/Upgrade package
+```bash
+ansible -m shell -a 'sudo apt-get install -y datadog-agent' tag_Purpose_jenkins
+```
 
-### Support or Contact
+Run playbook:
+```bash
+ansible-playbook devops.yml --tags "datadog" --private-key=/Users/oleksak/IBM/Projekty/PMI/DevOps/novy_account/global-devops-admin
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+To evolve the directory structure please refer to [best practices](http://docs.ansible.com/ansible/latest/playbooks_best_practices.html#directory-layout).
+
+.
