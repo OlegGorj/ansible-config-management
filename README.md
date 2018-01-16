@@ -1,5 +1,21 @@
-# devops-config-management
-For all configuration management tasks
+# ansible-config-management
+For all configuration management tasks managed by Ansible
+
+Library ready status
+--------------------
+
+
+
+Requirements
+------------
+
+* Ansible >= 2.2
+
+Dependencies
+------------
+
+None
+
 
 ## Usage
 First off, update AWS creds in /lib/ec2.ini, then apply profie with
