@@ -10,4 +10,7 @@ env:
 
 install:
   - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
-  
+
+cript:
+  # Syntax check
+  - ansible-playbook -i localhost, roles/Filebeat/test/main.yml --syntax-check
