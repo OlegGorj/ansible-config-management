@@ -12,7 +12,7 @@ install:
 
 script:
   # Syntax check
-  - ansible-playbook -i localhost, Filebeat/test/main.yml --syntax-check
+  - ansible-playbook -i localhost, roles/Filebeat/test/test.yml --syntax-check
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
