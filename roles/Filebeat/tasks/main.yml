@@ -19,9 +19,8 @@
       group: "{{ filebeat_owner_grp }}"
       mode: 0755
     become: yes
-    when: (filebeat_conf_exist == 0)
-    tags:
-    - filebeat
+    when: (filebeat_conf_exist.stat.exists == false)
+    tags: filebeat
 
   - name: create filebeat config file if they don't exist
     file:
@@ -32,8 +31,7 @@
       mode: 0644
     become: yes
     when: (filebeat_conf_exist.stat.exists == false)
-    tags:
-    - filebeat
+    tags: filebeat
 
 - name: Backup filebeat config
   become: yes
@@ -50,7 +48,5 @@
     force: yes
   when: (filebeat_conf_exist != 0)
   become: yes
-  notify:
-    - restart filebeat
-  tags:
-    - filebeat
+  notify: restart filebeat
+  tags: filebeat
