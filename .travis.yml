@@ -13,9 +13,9 @@ install:
 script:
   # Syntax check
   - ansible-playbook -i localhost, roles/Filebeat/test/test.yml --syntax-check
-  - ansible-playbook -i localhost --extra-vars "env=dev" --connection=local ./roles/Filebeat/test/test.yml
+  - ansible-playbook -i ./inventories --limit "local-servers" --extra-vars "env=dev" --connection=local ./roles/Filebeat/test/test.yml
   - ansible-playbook -i localhost, roles/Logrotate/test/test.yml --syntax-check
-  - ansible-playbook -i localhost --extra-vars "env=dev" --connection=local ./roles/Logrotate/test/test.yml
+  - ansible-playbook -i ./inventories --limit "local-servers" --extra-vars "env=dev" --connection=local ./roles/Logrotate/test/test.yml
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
