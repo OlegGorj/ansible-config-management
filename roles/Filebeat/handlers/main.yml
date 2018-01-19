@@ -5,6 +5,7 @@
 - name: restart filebeat
   service: name=filebeat state=restarted
   become: yes
+  ignore_errors: yes
 
 - name: start filebeat
   service: name=filebeat state=started
