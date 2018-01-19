@@ -8,6 +8,8 @@
     path: "{{ filebeat_config_dir }}/{{ filebeat_config_file }}"
   register: filebeat_conf_exist
 
+- debug: var={{ filebeat_conf_exist }}
+
 - block:
   - name: create filebeat config directory if they don't exist
     file:
